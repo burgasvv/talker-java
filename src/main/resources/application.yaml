@@ -1,0 +1,36 @@
+
+server:
+  port: 9000
+spring:
+  application:
+    name: talker-java
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: 'jdbc:postgresql://localhost:5000/talker_java_db'
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 150
+      minimum-idle: 5
+      connection-timeout: 300000
+  jpa:
+    database: postgresql
+    database-platform: prg.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+  liquibase:
+    driver-class-name: org.postgresql.Driver
+    url: 'jdbc:postgresql://localhost:5000/talker_java_db'
+    user: postgres
+    password: postgres
+logging:
+  level:
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.hibernate.transaction: DEBUG
