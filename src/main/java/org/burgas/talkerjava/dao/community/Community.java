@@ -17,6 +17,21 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "community", schema = "public")
+@NamedEntityGraph(
+        name = "community-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "admin", subgraph = "admin-subgraph"),
+                @NamedAttributeNode(value = "images"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "admin-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                )
+        }
+)
 public class Community extends Dao {
 
     @Id

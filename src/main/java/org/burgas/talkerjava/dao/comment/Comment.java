@@ -18,6 +18,58 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment", schema = "public")
+@NamedEntityGraph(
+        name = "comment-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "publication", subgraph = "publication-subgraph"),
+                @NamedAttributeNode(value = "sender", subgraph = "sender-subgraph"),
+                @NamedAttributeNode(value = "files"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "publication-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "community", subgraph = "community-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "community-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publication-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "sender", subgraph = "publication-sender-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publication-sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publication-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publication-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "files")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                )
+        }
+)
 public class Comment extends Dao {
 
     @Id

@@ -18,6 +18,47 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "chat", schema = "public")
+@NamedEntityGraph(
+        name = "chat-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "admin", subgraph = "admin-subgraph"),
+                @NamedAttributeNode(value = "images"),
+                @NamedAttributeNode(value = "identities", subgraph = "identities-subgraph"),
+                @NamedAttributeNode(value = "messages", subgraph = "messages-subgraph"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "admin-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "identities-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "messages-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "sender", subgraph = "sender-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "messages-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "files")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                )
+        }
+)
 public class Chat extends Dao {
 
     @Id

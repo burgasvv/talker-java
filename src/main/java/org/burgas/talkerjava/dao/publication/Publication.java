@@ -19,6 +19,48 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "publication", schema = "public")
+@NamedEntityGraph(
+        name = "publication-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "community", subgraph = "community-subgraph"),
+                @NamedAttributeNode(value = "sender", subgraph = "sender-subgraph"),
+                @NamedAttributeNode(value = "images"),
+                @NamedAttributeNode(value = "files"),
+                @NamedAttributeNode(value = "comments", subgraph = "comments-subgraph"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "community-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "comments-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "sender", subgraph = "comments-sender-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "comments-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "files")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "comments-sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                )
+        }
+)
 public class Publication extends Dao {
 
     @Id
