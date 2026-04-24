@@ -32,14 +32,38 @@ import java.util.UUID;
                         }
                 ),
                 @NamedSubgraph(
+                        name = "chats-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "admin", subgraph = "chats-admin-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "chats-admin-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
                         name = "communities-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "communities-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "admin", subgraph = "communities-admin-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "communities-admin-subgraph",
                         attributeNodes = {
                                 @NamedAttributeNode(value = "images")
                         }
                 )
         }
 )
-public class Identity extends Dao {
+public class Identity implements Dao {
 
     @Id
     @Column(name = "id")
@@ -52,6 +76,9 @@ public class Identity extends Dao {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "email")
     private String email;

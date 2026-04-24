@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment_file", schema = "public")
-public class CommentFile extends File {
+public class CommentFile implements File {
 
     @Id
     @Column(name = "id")

@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "publication_image", schema = "public")
-public class PublicationImage extends Image {
+public class PublicationImage implements Image {
 
     @Id
     @Column(name = "id")

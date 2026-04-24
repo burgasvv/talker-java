@@ -1,4 +1,4 @@
 package org.burgas.talkerjava.dao;
 
-public abstract class Dao {
+public interface Dao {
 }

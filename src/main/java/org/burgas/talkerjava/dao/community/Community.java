@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.burgas.talkerjava.dao.Dao;
 import org.burgas.talkerjava.dao.identity.Identity;
+import org.burgas.talkerjava.dao.publication.Publication;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.UUID;
         attributeNodes = {
                 @NamedAttributeNode(value = "admin", subgraph = "admin-subgraph"),
                 @NamedAttributeNode(value = "images"),
+                @NamedAttributeNode(value = "publications", subgraph = "publications-subgraph")
         },
         subgraphs = {
                 @NamedSubgraph(
@@ -29,10 +31,34 @@ import java.util.UUID;
                         attributeNodes = {
                                 @NamedAttributeNode(value = "images")
                         }
+                ),
+                @NamedSubgraph(
+                        name = "publications-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "sender", subgraph = "publications-sender-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publications-sender-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publications-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "publications-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "files")
+                        }
                 )
         }
 )
-public class Community extends Dao {
+public class Community implements Dao {
 
     @Id
     @Column(name = "id")
@@ -51,6 +77,9 @@ public class Community extends Dao {
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommunityImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Publication> publications = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

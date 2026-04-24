@@ -33,6 +33,18 @@ import java.util.UUID;
                         }
                 ),
                 @NamedSubgraph(
+                        name = "chat-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "admin", subgraph = "chat-admin-subgraph")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "chat-admin-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
                         name = "sender-subgraph",
                         attributeNodes = {
                                 @NamedAttributeNode(value = "images")
@@ -40,7 +52,7 @@ import java.util.UUID;
                 )
         }
 )
-public class Message extends Dao {
+public class Message implements Dao {
 
     @Id
     @Column(name = "id")

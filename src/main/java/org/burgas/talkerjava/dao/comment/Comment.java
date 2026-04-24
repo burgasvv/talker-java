@@ -29,18 +29,6 @@ import java.util.UUID;
                 @NamedSubgraph(
                         name = "publication-subgraph",
                         attributeNodes = {
-                                @NamedAttributeNode(value = "community", subgraph = "community-subgraph")
-                        }
-                ),
-                @NamedSubgraph(
-                        name = "community-subgraph",
-                        attributeNodes = {
-                                @NamedAttributeNode(value = "images")
-                        }
-                ),
-                @NamedSubgraph(
-                        name = "publication-subgraph",
-                        attributeNodes = {
                                 @NamedAttributeNode(value = "sender", subgraph = "publication-sender-subgraph")
                         }
                 ),
@@ -70,7 +58,7 @@ import java.util.UUID;
                 )
         }
 )
-public class Comment extends Dao {
+public class Comment implements Dao {
 
     @Id
     @Column(name = "id")

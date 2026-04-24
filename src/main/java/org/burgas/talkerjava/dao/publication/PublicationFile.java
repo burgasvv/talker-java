@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "publication_file", schema = "public")
-public class PublicationFile extends File {
+public class PublicationFile implements File {
 
     @Id
     @Column(name = "id")

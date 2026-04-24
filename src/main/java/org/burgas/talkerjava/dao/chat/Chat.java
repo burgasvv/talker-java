@@ -59,7 +59,7 @@ import java.util.UUID;
                 )
         }
 )
-public class Chat extends Dao {
+public class Chat implements Dao {
 
     @Id
     @Column(name = "id")
