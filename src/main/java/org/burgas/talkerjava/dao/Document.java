@@ -1,4 +1,4 @@
 package org.burgas.talkerjava.dao;
 
-public interface Image {
+public interface Document {
 }

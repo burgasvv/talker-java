@@ -23,11 +23,18 @@ import java.util.UUID;
         attributeNodes = {
                 @NamedAttributeNode(value = "admin", subgraph = "admin-subgraph"),
                 @NamedAttributeNode(value = "images"),
+                @NamedAttributeNode(value = "identities", subgraph = "identities-subgraph"),
                 @NamedAttributeNode(value = "publications", subgraph = "publications-subgraph")
         },
         subgraphs = {
                 @NamedSubgraph(
                         name = "admin-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "images")
+                        }
+                ),
+                @NamedSubgraph(
+                        name = "identities-subgraph",
                         attributeNodes = {
                                 @NamedAttributeNode(value = "images")
                         }
@@ -77,6 +84,9 @@ public class Community implements Dao {
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommunityImage> images = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "communities", fetch = FetchType.LAZY)
+    private List<Identity> identities = new ArrayList<>();
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Publication> publications = new ArrayList<>();

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.burgas.talkerjava.dao.identity.Authority;
 import org.burgas.talkerjava.dao.identity.IdentityImage;
 import org.burgas.talkerjava.dto.Response;
 

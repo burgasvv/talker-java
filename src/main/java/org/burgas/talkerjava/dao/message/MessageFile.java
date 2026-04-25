@@ -3,7 +3,7 @@ package org.burgas.talkerjava.dao.message;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.burgas.talkerjava.dao.File;
+import org.burgas.talkerjava.dao.Document;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "message_file", schema = "public")
-public class MessageFile implements File {
+public class MessageFile implements Document {
 
     @Id
     @Column(name = "id")

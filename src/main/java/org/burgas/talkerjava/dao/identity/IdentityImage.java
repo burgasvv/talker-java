@@ -3,7 +3,7 @@ package org.burgas.talkerjava.dao.identity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.burgas.talkerjava.dao.Image;
+import org.burgas.talkerjava.dao.Document;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "identity_image", schema = "public")
-public class IdentityImage implements Image {
+public class IdentityImage implements Document {
 
     @Id
     @Column(name = "id")

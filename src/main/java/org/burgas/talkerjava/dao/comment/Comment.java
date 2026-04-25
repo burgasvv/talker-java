@@ -80,5 +80,5 @@ public class Comment implements Dao {
     private List<CommentFile> files = new ArrayList<>();
 
     @Column(name = "created_at")
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }
