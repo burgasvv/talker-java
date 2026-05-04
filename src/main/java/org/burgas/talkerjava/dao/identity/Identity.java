@@ -110,6 +110,16 @@ public class Identity implements Dao {
     )
     private List<Chat> chats = new ArrayList<>();
 
+    public void addChat(Chat chat) {
+        this.chats.add(chat);
+        chat.getIdentities().add(this);
+    }
+
+    public void removeChat(Chat chat) {
+        this.chats.remove(chat);
+        chat.getIdentities().remove(this);
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "identity_community",
@@ -121,4 +131,14 @@ public class Identity implements Dao {
             }
     )
     private List<Community> communities = new ArrayList<>();
+
+    public void addCommunity(Community community) {
+        this.getCommunities().add(community);
+        community.getIdentities().add(this);
+    }
+
+    public void removeCommunity(Community community) {
+        this.communities.remove(community);
+        community.getIdentities().remove(this);
+    }
 }

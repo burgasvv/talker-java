@@ -23,6 +23,23 @@ Content-Type: application/json
 }
 
 ###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "authority": "USER",
+    "username": "zagor",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "status": true,
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
+}
+
+###
 POST /api/v1/identities/update
 Host: localhost:9000
 Accept: application/json
@@ -76,5 +93,50 @@ Content-Type: application/json
 
 ###
 GET /api/v1/identity-images/by-id?imageId=422998fd-470c-4fdf-b5fd-e308a242d361
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Chat Requests
+
+
+
+###
+POST /api/v1/chats/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "New Attractive Chat",
+    "description": "Описание чата New Attractive Chat",
+    "adminId": "2c369279-cc97-447e-8447-2775559eab3e"
+}
+
+###
+PUT /api/v1/chats/join
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "groupId": "d4a2652a-51a6-42b8-9afa-5db80e1eabc3",
+    "applicantId": "8c316797-b944-4b56-b2eb-091fe1cb4061"
+}
+
+###
+PUT /api/v1/chats/out
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "groupId": "d4a2652a-51a6-42b8-9afa-5db80e1eabc3",
+    "applicantId": "8c316797-b944-4b56-b2eb-091fe1cb4061"
+}
+
+###
+GET /api/v1/chats/by-id?chatId=d4a2652a-51a6-42b8-9afa-5db80e1eabc3
 Host: localhost:9000
 Accept: application/json

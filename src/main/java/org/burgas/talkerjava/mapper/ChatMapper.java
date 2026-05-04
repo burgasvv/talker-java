@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, ChatFullResponse> {
 
-    final ChatRepository chatRepository;
+    public final ChatRepository chatRepository;
 
     private final ObjectFactory<IdentityMapper> identityMapperObjectFactory;
     private final ObjectFactory<MessageMapper> messageMapperObjectFactory;
@@ -34,17 +35,15 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
 
     @Override
     public Chat toEntity(ChatRequest request) {
-        return this.chatRepository.findById(request.getId())
+        return this.chatRepository.findById(handleData(request.getId(), new UUID(0,0)))
                 .map(
                         chat -> {
                             var updateChat = new Chat();
                             updateChat.setId(chat.getId());
                             var admin = this.getidentityMapper().identityRepository
-                                    .findById(request.getAdminId())
+                                    .findById(handleData(request.getAdminId(), new UUID(0,0)))
                                     .orElse(null);
-                            if (admin != null && chat.getIdentities().contains(admin)) {
-                                updateChat.setAdmin(admin);
-                            }
+                            if (admin != null && chat.getIdentities().contains(admin)) updateChat.setAdmin(admin);
                             updateChat.setName(handleData(request.getName(), chat.getName()));
                             updateChat.setDescription(handleData(request.getDescription(), chat.getDescription()));
                             updateChat.setCreatedAt(chat.getCreatedAt());
@@ -54,7 +53,7 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                 .orElseGet(
                         () -> {
                             var admin = this.getidentityMapper().identityRepository
-                                    .findById(request.getAdminId())
+                                    .findById(handleData(request.getAdminId(), new UUID(0,0)))
                                     .orElse(null);
                             var chat = Chat.builder()
                                     .name(handleDataException(request.getName(), "Name is null"))
@@ -63,9 +62,8 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                                     .createdAt(LocalDateTime.now())
                                     .build();
                             chat = this.chatRepository.save(chat);
-                            if (admin != null) {
-                                admin.getChats().add(chat);
-                            }
+                            assert admin != null;
+                            admin.getChats().add(chat);
                             return chat;
                         }
                 );
