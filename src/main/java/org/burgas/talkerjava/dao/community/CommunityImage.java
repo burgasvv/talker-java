@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.burgas.talkerjava.dao.Document;
+import org.burgas.talkerjava.dao.Image;
 
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "community_image", schema = "public")
-public class CommunityImage implements Document {
+public class CommunityImage implements Document, Image {
 
     @Id
     @Column(name = "id")

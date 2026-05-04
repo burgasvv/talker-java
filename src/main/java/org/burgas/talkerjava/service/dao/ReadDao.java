@@ -1,9 +1,9 @@
-package org.burgas.talkerjava.service;
+package org.burgas.talkerjava.service.dao;
 
 import org.burgas.talkerjava.dao.Dao;
 import org.burgas.talkerjava.dto.Response;
 
-public interface ReadService<ID, D extends Dao, F extends Response> {
+public interface ReadDao<ID, D extends Dao, F extends Response> {
 
     D findEntity(ID id);
 

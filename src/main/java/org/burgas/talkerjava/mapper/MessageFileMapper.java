@@ -8,6 +8,7 @@ import org.burgas.talkerjava.dao.message.MessageFile;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.MessageFileRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -17,9 +18,9 @@ public class MessageFileMapper implements Uploader<Message, MessageFile> {
 
     @SneakyThrows
     @Override
-    public MessageFile upload(Message entity, Part part) {
+    public MessageFile upload(Message entity, MultipartFile part) {
         var messageFile = MessageFile.builder()
-                .name(part.getSubmittedFileName())
+                .name(part.getOriginalFilename())
                 .contentType(part.getContentType())
                 .size(part.getSize())
                 .data(part.getInputStream().readAllBytes())

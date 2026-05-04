@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class IdentityMapper implements Mapper<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
-    final IdentityRepository identityRepository;
+    public final IdentityRepository identityRepository;
 
     private final ObjectFactory<ChatMapper> chatMapperObjectFactory;
     private final ObjectFactory<CommunityMapper> communityMapperObjectFactory;
@@ -32,7 +33,7 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
 
     @Override
     public Identity toEntity(IdentityRequest request) {
-        return this.identityRepository.findById(request.getId())
+        return this.identityRepository.findById(handleData(request.getId(), new UUID(0, 0)))
                 .map(
                         identity -> Identity.builder()
                                 .id(identity.getId())
@@ -86,7 +87,7 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                 .chats(
                         Optional.ofNullable(entity.getChats())
                                 .map(chats -> chats.parallelStream()
-                                        .map(chat -> this.getChatMapper().toShortResponse(chat)).toList())
+                                        .map(chat -> getChatMapper().toShortResponse(chat)).toList())
                                 .orElseGet(ArrayList::new)
                 )
                 .communities(

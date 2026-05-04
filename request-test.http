@@ -1,0 +1,80 @@
+
+
+
+### Identity Requests
+
+
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "authority": "ADMIN",
+    "username": "burgasvv",
+    "password": "burgasvv",
+    "email": "burgasvv@gmail.com",
+    "status": true,
+    "firstname": "Бургас",
+    "lastname": "Вячеслав",
+    "patronymic": "Васильевич"
+}
+
+###
+POST /api/v1/identities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": "94b47fdb-1f67-412e-b652-b320b067b2eb",
+    "username": "burgasvv"
+}
+
+###
+GET /api/v1/identities
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/identities/by-id?identityId=2c369279-cc97-447e-8447-2775559eab3e
+Host: localhost:9000
+Accept: application/json
+
+###
+DELETE /api/v1/identities/delete?identityId=94b47fdb-1f67-412e-b652-b320b067b2eb
+Host: localhost:9000
+
+
+
+### Identity-Image Requests
+
+
+
+###
+PUT /api/v1/identity-images/make-preview
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "entityId": "2c369279-cc97-447e-8447-2775559eab3e",
+    "imageId": "422998fd-470c-4fdf-b5fd-e308a242d361"
+}
+
+###
+DELETE /api/v1/identity-images/delete?identityId=2c369279-cc97-447e-8447-2775559eab3e
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+
+{
+    "documentIds": ["0f6ceba2-09d9-4a77-9759-b7189441c1d3"]
+}
+
+###
+GET /api/v1/identity-images/by-id?imageId=422998fd-470c-4fdf-b5fd-e308a242d361
+Host: localhost:9000
+Accept: application/json

@@ -1,6 +1,5 @@
 package org.burgas.talkerjava.mapper;
 
-import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.burgas.talkerjava.dao.publication.Publication;
@@ -8,6 +7,7 @@ import org.burgas.talkerjava.dao.publication.PublicationFile;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.PublicationFileRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -17,9 +17,9 @@ public class PublicationFileMapper implements Uploader<Publication, PublicationF
 
     @SneakyThrows
     @Override
-    public PublicationFile upload(Publication entity, Part part) {
+    public PublicationFile upload(Publication entity, MultipartFile part) {
         var publicationFile = PublicationFile.builder()
-                .name(part.getSubmittedFileName())
+                .name(part.getOriginalFilename())
                 .contentType(part.getContentType())
                 .size(part.getSize())
                 .data(part.getInputStream().readAllBytes())
