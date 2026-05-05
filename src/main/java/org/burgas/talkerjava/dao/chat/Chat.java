@@ -79,8 +79,18 @@ public class Chat implements Dao {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ChatImage> images = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "chats", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "chats", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Identity> identities = new ArrayList<>();
+
+    public void addIdentity(Identity identity) {
+        this.getIdentities().add(identity);
+        identity.getChats().add(this);
+    }
+
+    public void removeIdentity(Identity identity) {
+        this.getIdentities().remove(identity);
+        identity.getChats().remove(this);
+    }
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages = new ArrayList<>();

@@ -88,6 +88,16 @@ public class Community implements Dao {
     @ManyToMany(mappedBy = "communities", fetch = FetchType.LAZY)
     private List<Identity> identities = new ArrayList<>();
 
+    public void addIdentity(Identity identity) {
+        this.getIdentities().add(identity);
+        identity.getCommunities().add(this);
+    }
+
+    public void removeIdentity(Identity identity) {
+        this.getIdentities().remove(identity);
+        identity.getCommunities().remove(this);
+    }
+
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Publication> publications = new ArrayList<>();
 

@@ -72,7 +72,7 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
                                     .build();
                             community = this.communityRepository.save(community);
                             assert admin != null;
-                            admin.addCommunity(community);
+                            community.addIdentity(admin);
                             return community;
                         }
                 );

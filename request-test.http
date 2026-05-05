@@ -21,7 +21,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: ZCvYRRYEwnPl8v51RrYyGcn2WeyBJjeW-NXJ35fjVZK2-T83Uhy8IHVgpBHIlJ1Ef5sGLKvFdI2yElW7nbev5vaGYqrUm1kE
+X-Csrf-Token: fdaipyh5syL0RGDksHyzW1DSNWRckXFNX0ekB_dVk1PK38_fTO6TwR5K0UDZclaC1FGHamnhGAY-pxJgPn7BMMZloGOv6Pzs
 
 {
     "authority": "ADMIN",
@@ -126,13 +126,13 @@ POST /api/v1/chats/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: H4GsHPn9Fy3wHCsPRciwtOdiryi8CN0O5sqNeGf3FKYWH6xnKbbIeZqZcU_dekg-fOWEgYVRgkmPPL8jg6jrQQaSI550fcpU
+X-Csrf-Token: fdaipyh5syL0RGDksHyzW1DSNWRckXFNX0ekB_dVk1PK38_fTO6TwR5K0UDZclaC1FGHamnhGAY-pxJgPn7BMMZloGOv6Pzs
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
     "name": "New Attractive",
     "description": "Описание чата New Attractive Chat",
-    "adminId": "060f883f-09e6-4cde-9a75-5f34447d2264"
+    "adminId": "48fd24e7-17db-4abc-8cb9-bf261d5127a8"
 }
 
 ###

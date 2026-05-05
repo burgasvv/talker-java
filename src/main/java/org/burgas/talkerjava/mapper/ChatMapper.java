@@ -72,7 +72,7 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                                     .build();
                             chat = this.chatRepository.save(chat);
                             assert admin != null;
-                            admin.addChat(chat);
+                            chat.addIdentity(admin);
                             return chat;
                         }
                 );
