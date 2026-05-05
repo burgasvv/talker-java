@@ -1,6 +1,17 @@
 
 
 
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9000
+Accept: application/json
+
+
+
 ### Identity Requests
 
 
@@ -10,10 +21,11 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: nsZuTCDD5UBccxQBSx7pZRc5ZJcXVrociTTSfk_U6FQoiAcbr_JdfhKig3JxSnY5fTPdUCVaSa4hNIox6lXlGHbhijERuD4v
 
 {
     "authority": "ADMIN",
-    "username": "burgasvv",
+    "username": "burgvv",
     "password": "burgasvv",
     "email": "burgasvv@gmail.com",
     "status": true,
@@ -27,6 +39,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: nsZuTCDD5UBccxQBSx7pZRc5ZJcXVrociTTSfk_U6FQoiAcbr_JdfhKig3JxSnY5fTPdUCVaSa4hNIox6lXlGHbhijERuD4v
 
 {
     "authority": "USER",
@@ -44,9 +57,11 @@ POST /api/v1/identities/update
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: 2GbAyU7nTEON7S6ZY5cgfKZWSNned80clce2x1m9doZIQRfh6VLz-3yGKnGg1EyhVboUSZQ1ZeDoFf0x9qaBoWCIFONxcS7V
+Authorization: Basic zagor@gmail.com zagor
 
 {
-    "id": "94b47fdb-1f67-412e-b652-b320b067b2eb",
+    "id": "db8ac8ac-4df4-427d-b7ff-938ebf289769",
     "username": "burgasvv"
 }
 

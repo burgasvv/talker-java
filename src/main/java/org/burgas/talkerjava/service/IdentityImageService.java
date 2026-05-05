@@ -1,5 +1,6 @@
 package org.burgas.talkerjava.service;
 
+import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
 import org.burgas.talkerjava.dao.identity.Identity;
 import org.burgas.talkerjava.dao.identity.IdentityImage;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -39,9 +39,9 @@ public class IdentityImageService implements ReadDocument<UUID, IdentityImage>, 
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = {Exception.class, Throwable.class, RuntimeException.class}
     )
-    public void create(UUID entityId, List<MultipartFile> multipartFiles) {
+    public void create(UUID entityId, List<Part> parts) {
         Identity identity = identityService.findEntity(entityId);
-        multipartFiles.forEach(multipartFile -> identityImageMapper.upload(identity, multipartFile));
+        parts.forEach(part -> identityImageMapper.upload(identity, part));
         identityService.handleCache(identity);
     }
 

@@ -1,4 +1,6 @@
 
+@file:Suppress("AvoidDuplicateDependencies")
+
 plugins {
     java
     id("org.springframework.boot") version "4.0.5"
@@ -27,19 +29,21 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.jetbrains:annotations:26.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     compileOnly("org.projectlombok:lombok")
+    testImplementation("org.springframework.security:spring-security-test")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
     testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
     testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-websocket-test")
-    testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 }
 

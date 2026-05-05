@@ -8,6 +8,7 @@ import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 import org.burgas.talkerjava.mapper.contract.Mapper;
 import org.burgas.talkerjava.repository.IdentityRepository;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class IdentityMapper implements Mapper<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
     public final IdentityRepository identityRepository;
+    public final PasswordEncoder passwordEncoder;
 
     private final ObjectFactory<ChatMapper> chatMapperObjectFactory;
     private final ObjectFactory<CommunityMapper> communityMapperObjectFactory;
@@ -51,7 +53,7 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                         () -> Identity.builder()
                                 .authority(handleDataException(request.getAuthority(), "Authority is null"))
                                 .username(handleDataException(request.getUsername(), "Username is null"))
-                                .password(handleDataException(request.getPassword(), "Password is null"))
+                                .password(passwordEncoder.encode(handleDataException(request.getPassword(), "Password is null")))
                                 .email(handleDataException(request.getEmail(), "Email is null"))
                                 .status(handleData(request.getStatus(), true))
                                 .firstname(handleDataException(request.getFirstname(), "Firstname is null"))

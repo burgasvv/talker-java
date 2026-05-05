@@ -8,7 +8,6 @@ import org.burgas.talkerjava.dao.chat.ChatImage;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.ChatImageRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -20,10 +19,10 @@ public class ChatImageMapper implements Uploader<Chat, ChatImage> {
 
     @SneakyThrows
     @Override
-    public ChatImage upload(Chat entity, MultipartFile part) {
+    public ChatImage upload(Chat entity, Part part) {
         if (Objects.requireNonNull(part.getContentType()).startsWith("image")) {
             var chatImage = ChatImage.builder()
-                    .name(part.getOriginalFilename())
+                    .name(part.getSubmittedFileName())
                     .contentType(part.getContentType())
                     .data(part.getInputStream().readAllBytes())
                     .size(part.getSize())

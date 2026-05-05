@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface Uploader<D extends Dao, E extends Document> {
 
-    E upload(D entity, MultipartFile multipartFile);
+    E upload(D entity, Part part);
 }
