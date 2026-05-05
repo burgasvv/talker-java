@@ -5,6 +5,7 @@ import org.burgas.talkerjava.dto.chat.ChatRequest;
 import org.burgas.talkerjava.dto.chat.ChatShortResponse;
 import org.burgas.talkerjava.dto.exception.ExceptionResponse;
 import org.burgas.talkerjava.dto.group.GroupRequest;
+import org.burgas.talkerjava.filter.ChatFilter;
 import org.burgas.talkerjava.service.ChatService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +23,9 @@ import java.util.UUID;
 public class ChatRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> chatRoutes(ChatService chatService) {
+    public RouterFunction<ServerResponse> chatRoutes(ChatService chatService, ChatFilter chatFilter) {
         return RouterFunctions.route()
+                .filter(chatFilter)
                 .GET(
                         "/api/v1/chats", _ -> {
                             List<ChatShortResponse> all = chatService.findAll();
