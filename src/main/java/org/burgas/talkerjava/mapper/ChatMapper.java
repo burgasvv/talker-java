@@ -43,9 +43,15 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                             var admin = this.getidentityMapper().identityRepository
                                     .findById(handleData(request.getAdminId(), new UUID(0,0)))
                                     .orElse(null);
-                            if (admin != null && chat.getIdentities().contains(admin)) updateChat.setAdmin(admin);
+                            if (admin != null && chat.getIdentities().contains(admin))
+                                updateChat.setAdmin(admin);
+                            else
+                                updateChat.setAdmin(chat.getAdmin());
                             updateChat.setName(handleData(request.getName(), chat.getName()));
                             updateChat.setDescription(handleData(request.getDescription(), chat.getDescription()));
+                            updateChat.setImages(chat.getImages());
+                            updateChat.setIdentities(chat.getIdentities());
+                            updateChat.setMessages(chat.getMessages());
                             updateChat.setCreatedAt(chat.getCreatedAt());
                             return this.chatRepository.save(updateChat);
                         }
@@ -59,11 +65,14 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                                     .name(handleDataException(request.getName(), "Name is null"))
                                     .description(handleDataException(request.getDescription(), "Description is null"))
                                     .admin(handleDataException(admin, "Admin is null"))
+                                    .images(new ArrayList<>())
+                                    .identities(new ArrayList<>())
+                                    .messages(new ArrayList<>())
                                     .createdAt(LocalDateTime.now())
                                     .build();
                             chat = this.chatRepository.save(chat);
                             assert admin != null;
-                            admin.getChats().add(chat);
+                            admin.addChat(chat);
                             return chat;
                         }
                 );
@@ -96,16 +105,12 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                 )
                 .images(entity.getImages())
                 .identities(
-                        Optional.ofNullable(entity.getIdentities())
-                                .map(identities -> identities.parallelStream()
-                                        .map(identity -> getidentityMapper().toShortResponse(identity)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getIdentities().parallelStream()
+                                .map(identity -> getidentityMapper().toShortResponse(identity)).toList()
                 )
                 .messages(
-                        Optional.ofNullable(entity.getMessages())
-                                .map(messages -> messages.parallelStream()
-                                        .map(message -> getMessageMapper().toShortResponse(message)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getMessages().parallelStream()
+                                .map(message -> getMessageMapper().toShortResponse(message)).toList()
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();

@@ -21,11 +21,11 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: nsZuTCDD5UBccxQBSx7pZRc5ZJcXVrociTTSfk_U6FQoiAcbr_JdfhKig3JxSnY5fTPdUCVaSa4hNIox6lXlGHbhijERuD4v
+X-Csrf-Token: ZCvYRRYEwnPl8v51RrYyGcn2WeyBJjeW-NXJ35fjVZK2-T83Uhy8IHVgpBHIlJ1Ef5sGLKvFdI2yElW7nbev5vaGYqrUm1kE
 
 {
     "authority": "ADMIN",
-    "username": "burgvv",
+    "username": "burgasvv",
     "password": "burgasvv",
     "email": "burgasvv@gmail.com",
     "status": true,
@@ -39,7 +39,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: nsZuTCDD5UBccxQBSx7pZRc5ZJcXVrociTTSfk_U6FQoiAcbr_JdfhKig3JxSnY5fTPdUCVaSa4hNIox6lXlGHbhijERuD4v
+X-Csrf-Token: UkMsu3tHfM_fNrdtR1JNo2Sg7z0gdAtcMXuP2kpaXUrmi94oZHRI3hgjGq3yUNRcfn95lgaTwlwTQGlxVBnp4ys_anKE6bgb
 
 {
     "authority": "USER",
@@ -57,11 +57,11 @@ POST /api/v1/identities/update
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: 2GbAyU7nTEON7S6ZY5cgfKZWSNned80clce2x1m9doZIQRfh6VLz-3yGKnGg1EyhVboUSZQ1ZeDoFf0x9qaBoWCIFONxcS7V
-Authorization: Basic zagor@gmail.com zagor
+X-Csrf-Token: UkMsu3tHfM_fNrdtR1JNo2Sg7z0gdAtcMXuP2kpaXUrmi94oZHRI3hgjGq3yUNRcfn95lgaTwlwTQGlxVBnp4ys_anKE6bgb
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "id": "db8ac8ac-4df4-427d-b7ff-938ebf289769",
+    "id": "060f883f-09e6-4cde-9a75-5f34447d2264",
     "username": "burgasvv"
 }
 
@@ -71,7 +71,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/identities/by-id?identityId=2c369279-cc97-447e-8447-2775559eab3e
+GET /api/v1/identities/by-id?identityId=060f883f-09e6-4cde-9a75-5f34447d2264
 Host: localhost:9000
 Accept: application/json
 
@@ -90,20 +90,24 @@ PUT /api/v1/identity-images/make-preview
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: CYY5FCjnX5GpIFv32Z1SeKwO_ameP3CpMygFKBwfYBvQ_W2oP7FdcUuDOfOERjjG4LBmTc490MitCxKEVkpjEX16VyOynwub
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "entityId": "2c369279-cc97-447e-8447-2775559eab3e",
-    "imageId": "422998fd-470c-4fdf-b5fd-e308a242d361"
+    "entityId": "060f883f-09e6-4cde-9a75-5f34447d2264",
+    "imageId": "5e5652ee-7a2b-4639-97ed-6ce321888cf9"
 }
 
 ###
-DELETE /api/v1/identity-images/delete?identityId=2c369279-cc97-447e-8447-2775559eab3e
+DELETE /api/v1/identity-images/delete?identityId=060f883f-09e6-4cde-9a75-5f34447d2264
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: xDgQGsT2B3JtMSWfhiffinVP-bl-ml4jwzHWgax7zoiz4BAP8g90f6eSYRBAV0auvwrrvxd81NhNrjwOplOwuM0e-bDRgnY8
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "documentIds": ["0f6ceba2-09d9-4a77-9759-b7189441c1d3"]
+    "documentIds": ["7013c56d-6be4-4123-9878-0940beb6d726"]
 }
 
 ###
@@ -122,11 +126,27 @@ POST /api/v1/chats/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: H4GsHPn9Fy3wHCsPRciwtOdiryi8CN0O5sqNeGf3FKYWH6xnKbbIeZqZcU_dekg-fOWEgYVRgkmPPL8jg6jrQQaSI550fcpU
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "name": "New Attractive Chat",
+    "name": "New Attractive",
     "description": "Описание чата New Attractive Chat",
-    "adminId": "2c369279-cc97-447e-8447-2775559eab3e"
+    "adminId": "060f883f-09e6-4cde-9a75-5f34447d2264"
+}
+
+###
+POST /api/v1/chats/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: H4GsHPn9Fy3wHCsPRciwtOdiryi8CN0O5sqNeGf3FKYWH6xnKbbIeZqZcU_dekg-fOWEgYVRgkmPPL8jg6jrQQaSI550fcpU
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "9e048b8d-9f19-43f5-9e41-83cafd094dfc",
+    "name": "New Attractive Chat",
+    "adminId": "3471ddd1-fd94-4f80-b556-6f5c88d3cdd5"
 }
 
 ###
@@ -134,10 +154,12 @@ PUT /api/v1/chats/join
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: DGXnPDmhftMvWhcnC9i3e5lxTstid-eQ9FugNSGOWBq7RO9XOlKDWVrFGLECPHQWMvWDTvtCY6pRQ4W9kTnGDEDrbyLZJolk
+Authorization: Basic zagor@gmail.com zagor
 
 {
-    "groupId": "d4a2652a-51a6-42b8-9afa-5db80e1eabc3",
-    "applicantId": "8c316797-b944-4b56-b2eb-091fe1cb4061"
+    "groupId": "9e048b8d-9f19-43f5-9e41-83cafd094dfc",
+    "applicantId": "3471ddd1-fd94-4f80-b556-6f5c88d3cdd5"
 }
 
 ###
@@ -145,13 +167,15 @@ PUT /api/v1/chats/out
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: DGXnPDmhftMvWhcnC9i3e5lxTstid-eQ9FugNSGOWBq7RO9XOlKDWVrFGLECPHQWMvWDTvtCY6pRQ4W9kTnGDEDrbyLZJolk
+Authorization: Basic zagor@gmail.com zagor
 
 {
-    "groupId": "d4a2652a-51a6-42b8-9afa-5db80e1eabc3",
-    "applicantId": "8c316797-b944-4b56-b2eb-091fe1cb4061"
+    "groupId": "9e048b8d-9f19-43f5-9e41-83cafd094dfc",
+    "applicantId": "3471ddd1-fd94-4f80-b556-6f5c88d3cdd5"
 }
 
 ###
-GET /api/v1/chats/by-id?chatId=d4a2652a-51a6-42b8-9afa-5db80e1eabc3
+GET /api/v1/chats/by-id?chatId=9e048b8d-9f19-43f5-9e41-83cafd094dfc
 Host: localhost:9000
 Accept: application/json

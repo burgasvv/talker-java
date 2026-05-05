@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -34,15 +36,16 @@ public class CommentMapper implements Mapper<CommentRequest, Comment, CommentSho
     @Override
     public Comment toEntity(CommentRequest request) {
         var sender = getIdentityMapper().identityRepository
-                .findById(request.getSenderId())
+                .findById(handleData(request.getSenderId(), new UUID(0,0)))
                 .orElse(null);
         var publication = getPublicationMapper().publicationRepository
-                .findById(request.getPublicationId())
+                .findById(handleData(request.getPublicationId(), new UUID(0,0)))
                 .orElse(null);
         return Comment.builder()
                 .publication(handleDataException(publication, "Publication is null"))
                 .sender(handleDataException(sender, "Sender is null"))
                 .text(handleDataException(request.getText(), "Text is null"))
+                .files(new ArrayList<>())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

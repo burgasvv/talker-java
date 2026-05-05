@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -40,15 +41,18 @@ public class PublicationMapper implements Mapper<PublicationRequest, Publication
     @Override
     public Publication toEntity(PublicationRequest request) {
         var community = getCommunityMapper().communityRepository
-                .findById(request.getCommunityId())
+                .findById(handleData(request.getCommunityId(), new UUID(0,0)))
                 .orElse(null);
         var sender = getIdentityMapper().identityRepository
-                .findById(request.getSenderId())
+                .findById(handleData(request.getSenderId(), new UUID(0,0)))
                 .orElse(null);
         return Publication.builder()
                 .community(handleDataException(community, "Community is null"))
                 .sender(handleDataException(sender, "Sender is null"))
                 .text(handleDataException(request.getText(), "Text is null"))
+                .comments(new ArrayList<>())
+                .files(new ArrayList<>())
+                .images(new ArrayList<>())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -87,10 +91,8 @@ public class PublicationMapper implements Mapper<PublicationRequest, Publication
                 .images(entity.getImages())
                 .files(entity.getFiles())
                 .comments(
-                        Optional.ofNullable(entity.getComments())
-                                .map(comments -> comments.parallelStream()
-                                        .map(comment -> getCommentMapper().toShortResponse(comment)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getComments().parallelStream()
+                                .map(comment -> getCommentMapper().toShortResponse(comment)).toList()
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();

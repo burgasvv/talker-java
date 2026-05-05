@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -47,6 +46,9 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                                 .firstname(handleData(request.getFirstname(), identity.getFirstname()))
                                 .lastname(handleData(request.getLastname(), identity.getLastname()))
                                 .patronymic(handleData(request.getPatronymic(), identity.getPatronymic()))
+                                .images(identity.getImages())
+                                .chats(identity.getChats())
+                                .communities(identity.getCommunities())
                                 .build()
                 )
                 .orElseGet(
@@ -59,6 +61,9 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                                 .firstname(handleDataException(request.getFirstname(), "Firstname is null"))
                                 .lastname(handleDataException(request.getLastname(), "Lastname is null"))
                                 .patronymic(handleDataException(request.getPatronymic(), "Patronymic is null"))
+                                .images(new ArrayList<>())
+                                .chats(new ArrayList<>())
+                                .communities(new ArrayList<>())
                                 .build()
                 );
     }
@@ -87,16 +92,12 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                 .patronymic(entity.getPatronymic())
                 .images(entity.getImages())
                 .chats(
-                        Optional.ofNullable(entity.getChats())
-                                .map(chats -> chats.parallelStream()
-                                        .map(chat -> getChatMapper().toShortResponse(chat)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getChats().parallelStream()
+                                .map(chat -> getChatMapper().toShortResponse(chat)).toList()
                 )
                 .communities(
-                        Optional.ofNullable(entity.getCommunities())
-                                .map(communities -> communities.parallelStream()
-                                        .map(community -> getCommunityMapper().toShortResponse(community)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getCommunities().parallelStream()
+                                .map(community -> getCommunityMapper().toShortResponse(community)).toList()
                 )
                 .build();
     }

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -34,19 +35,23 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
 
     @Override
     public Community toEntity(CommunityRequest request) {
-        return this.communityRepository.findById(request.getId())
+        return this.communityRepository.findById(handleData(request.getId(), new UUID(0,0)))
                 .map(
                         community -> {
                             var updateCommunity = new Community();
                             updateCommunity.setId(community.getId());
                             var admin = getIdentityMapper().identityRepository
-                                    .findById(request.getAdminId())
+                                    .findById(handleData(request.getAdminId(), new UUID(0,0)))
                                     .orElse(null);
-                            if (admin != null && community.getIdentities().contains(admin)) {
+                            if (admin != null && community.getIdentities().contains(admin))
                                 updateCommunity.setAdmin(admin);
-                            }
+                            else
+                                updateCommunity.setAdmin(community.getAdmin());
                             updateCommunity.setName(handleData(request.getName(), community.getName()));
                             updateCommunity.setDescription(handleData(request.getDescription(), community.getDescription()));
+                            updateCommunity.setIdentities(community.getIdentities());
+                            updateCommunity.setImages(community.getImages());
+                            updateCommunity.setPublications(community.getPublications());
                             updateCommunity.setCreatedAt(community.getCreatedAt());
                             return this.communityRepository.save(updateCommunity);
                         }
@@ -54,18 +59,20 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
                 .orElseGet(
                         () -> {
                             var admin = getIdentityMapper().identityRepository
-                                    .findById(request.getAdminId())
+                                    .findById(handleData(request.getAdminId(), new UUID(0,0)))
                                     .orElse(null);
                             var community = Community.builder()
                                     .name(handleDataException(request.getName(), "Name is null"))
                                     .description(handleDataException(request.getDescription(), "Description is null"))
                                     .admin(handleDataException(admin, "Admin is null"))
+                                    .identities(new ArrayList<>())
+                                    .images(new ArrayList<>())
+                                    .publications(new ArrayList<>())
                                     .createdAt(LocalDateTime.now())
                                     .build();
                             community = this.communityRepository.save(community);
-                            if (admin != null) {
-                                admin.getCommunities().add(community);
-                            }
+                            assert admin != null;
+                            admin.addCommunity(community);
                             return community;
                         }
                 );
@@ -100,16 +107,12 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
                 )
                 .images(entity.getImages())
                 .identities(
-                        Optional.ofNullable(entity.getIdentities())
-                                .map(identities -> identities.parallelStream()
-                                        .map(identity -> getIdentityMapper().toShortResponse(identity)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getIdentities().parallelStream()
+                                .map(identity -> getIdentityMapper().toShortResponse(identity)).toList()
                 )
                 .publications(
-                        Optional.ofNullable(entity.getPublications())
-                                .map(publications -> publications.parallelStream()
-                                        .map(publication -> getPublicationmapper().toShortResponse(publication)).toList())
-                                .orElseGet(ArrayList::new)
+                        entity.getPublications().parallelStream()
+                                .map(publication -> getPublicationmapper().toShortResponse(publication)).toList()
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();
