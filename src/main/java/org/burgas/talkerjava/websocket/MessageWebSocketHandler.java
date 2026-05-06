@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class ChatWebSocketHandler extends TextWebSocketHandler {
+public class MessageWebSocketHandler extends TextWebSocketHandler {
 
     private final MessageMapper messageMapper;
     private static final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();

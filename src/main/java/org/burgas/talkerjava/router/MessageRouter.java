@@ -6,7 +6,7 @@ import org.burgas.talkerjava.dto.message.MessageFullResponse;
 import org.burgas.talkerjava.dto.message.MessageRequest;
 import org.burgas.talkerjava.filter.MessageFilter;
 import org.burgas.talkerjava.service.MessageService;
-import org.burgas.talkerjava.websocket.ChatWebSocketHandler;
+import org.burgas.talkerjava.websocket.MessageWebSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class MessageRouter {
 
     @Bean
     public RouterFunction<ServerResponse> messageRoutes(
-            MessageService messageService, MessageFilter messageFilter, ChatWebSocketHandler chatWebSocketHandler
+            MessageService messageService, MessageFilter messageFilter, MessageWebSocketHandler messageWebSocketHandler
     ) {
         return RouterFunctions.route()
                 .filter(messageFilter)
@@ -45,7 +45,7 @@ public class MessageRouter {
                             MessageFullResponse messageFullResponse = messageService.create(messageRequest, files);
                             ObjectMapper objectMapper = new ObjectMapper();
                             String message = objectMapper.writeValueAsString(messageFullResponse);
-                            chatWebSocketHandler.broadcast(message);
+                            messageWebSocketHandler.broadcast(message);
                             return ServerResponse.noContent().build();
                         }
                 )
