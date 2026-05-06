@@ -11,8 +11,9 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -61,9 +62,9 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                                 .firstname(handleDataException(request.getFirstname(), "Firstname is null"))
                                 .lastname(handleDataException(request.getLastname(), "Lastname is null"))
                                 .patronymic(handleDataException(request.getPatronymic(), "Patronymic is null"))
-                                .images(new ArrayList<>())
-                                .chats(new ArrayList<>())
-                                .communities(new ArrayList<>())
+                                .images(new HashSet<>())
+                                .chats(new HashSet<>())
+                                .communities(new HashSet<>())
                                 .build()
                 );
     }
@@ -93,11 +94,13 @@ public class IdentityMapper implements Mapper<IdentityRequest, Identity, Identit
                 .images(entity.getImages())
                 .chats(
                         entity.getChats().parallelStream()
-                                .map(chat -> getChatMapper().toShortResponse(chat)).toList()
+                                .map(chat -> getChatMapper().toShortResponse(chat))
+                                .collect(Collectors.toSet())
                 )
                 .communities(
                         entity.getCommunities().parallelStream()
-                                .map(community -> getCommunityMapper().toShortResponse(community)).toList()
+                                .map(community -> getCommunityMapper().toShortResponse(community))
+                                .collect(Collectors.toSet())
                 )
                 .build();
     }

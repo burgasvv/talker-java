@@ -7,9 +7,7 @@ import org.burgas.talkerjava.dao.identity.Identity;
 import org.burgas.talkerjava.dao.publication.Publication;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -77,7 +75,7 @@ public class Comment implements Dao {
     private String text;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentFile> files = new ArrayList<>();
+    private Set<CommentFile> files = new HashSet<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

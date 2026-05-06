@@ -4,6 +4,7 @@ import jakarta.servlet.http.Part;
 import org.burgas.talkerjava.dao.chat.ChatImage;
 import org.burgas.talkerjava.dto.document.DocumentRequest;
 import org.burgas.talkerjava.dto.document.ImageRequest;
+import org.burgas.talkerjava.dto.exception.ExceptionResponse;
 import org.burgas.talkerjava.filter.ChatImageFilter;
 import org.burgas.talkerjava.service.ChatImageService;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +58,18 @@ public class ChatImageRouter {
                             ImageRequest imageRequest = request.body(ImageRequest.class);
                             chatImageService.makePreview(imageRequest);
                             return ServerResponse.noContent().build();
+                        }
+                )
+                .onError(
+                        Throwable.class, (throwable, _) -> {
+                            var exceptionResponse = ExceptionResponse.builder()
+                                    .status(HttpStatus.BAD_REQUEST.name())
+                                    .code(HttpStatus.BAD_REQUEST.value())
+                                    .message(throwable.getLocalizedMessage())
+                                    .build();
+                            return ServerResponse
+                                    .status(HttpStatus.BAD_REQUEST)
+                                    .body(exceptionResponse);
                         }
                 )
                 .build();

@@ -6,9 +6,7 @@ import org.burgas.talkerjava.dao.Dao;
 import org.burgas.talkerjava.dao.chat.Chat;
 import org.burgas.talkerjava.dao.community.Community;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -96,7 +94,7 @@ public class Identity implements Dao {
     private String patronymic;
 
     @OneToMany(mappedBy = "identity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<IdentityImage> images = new ArrayList<>();
+    private Set<IdentityImage> images = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -108,7 +106,7 @@ public class Identity implements Dao {
                     @JoinColumn(name = "chat_id", referencedColumnName = "id")
             }
     )
-    private List<Chat> chats = new ArrayList<>();
+    private Set<Chat> chats = new HashSet<>();
 
     public void addChat(Chat chat) {
         this.chats.add(chat);
@@ -130,7 +128,7 @@ public class Identity implements Dao {
                     @JoinColumn(name = "community_id", referencedColumnName = "id")
             }
     )
-    private List<Community> communities = new ArrayList<>();
+    private Set<Community> communities = new HashSet<>();
 
     public void addCommunity(Community community) {
         this.getCommunities().add(community);

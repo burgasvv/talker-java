@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -56,7 +57,7 @@ public class IdentityService implements ListDao<IdentityShortResponse>, ReadDao<
         String identityKey = String.format(CacheUtil.IDENTITY_KEY, entity.getId());
         if (identityRedisTemplate.hasKey(identityKey)) identityRedisTemplate.delete(identityKey);
 
-        List<Chat> chats = entity.getChats();
+        Set<Chat> chats = entity.getChats();
         if (!chats.isEmpty()) {
             chats.forEach(chat -> {
                 String chatKey = String.format(CacheUtil.CHAT_KEY, chat.getId());
@@ -64,7 +65,7 @@ public class IdentityService implements ListDao<IdentityShortResponse>, ReadDao<
             });
         }
 
-        List<Community> communities = entity.getCommunities();
+        Set<Community> communities = entity.getCommunities();
         if (!communities.isEmpty()) {
             communities.forEach(community -> {
                 String communityKey = String.format(CacheUtil.COMMUNITY_KEY, community.getId());

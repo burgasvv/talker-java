@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -65,9 +66,9 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                                     .name(handleDataException(request.getName(), "Name is null"))
                                     .description(handleDataException(request.getDescription(), "Description is null"))
                                     .admin(handleDataException(admin, "Admin is null"))
-                                    .images(new ArrayList<>())
-                                    .identities(new ArrayList<>())
-                                    .messages(new ArrayList<>())
+                                    .images(new HashSet<>())
+                                    .identities(new HashSet<>())
+                                    .messages(new HashSet<>())
                                     .createdAt(LocalDateTime.now())
                                     .build();
                             chat = this.chatRepository.save(chat);
@@ -106,11 +107,13 @@ public class ChatMapper implements Mapper<ChatRequest, Chat, ChatShortResponse, 
                 .images(entity.getImages())
                 .identities(
                         entity.getIdentities().parallelStream()
-                                .map(identity -> getidentityMapper().toShortResponse(identity)).toList()
+                                .map(identity -> getidentityMapper().toShortResponse(identity))
+                                .collect(Collectors.toSet())
                 )
                 .messages(
                         entity.getMessages().parallelStream()
-                                .map(message -> getMessageMapper().toShortResponse(message)).toList()
+                                .map(message -> getMessageMapper().toShortResponse(message))
+                                .collect(Collectors.toSet())
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();

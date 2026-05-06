@@ -9,7 +9,7 @@ import org.burgas.talkerjava.dto.Response;
 import org.burgas.talkerjava.dto.chat.ChatShortResponse;
 import org.burgas.talkerjava.dto.community.CommunityShortResponse;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -24,7 +24,7 @@ public class IdentityFullResponse implements Response {
     private String firstname;
     private String lastname;
     private String patronymic;
-    private List<IdentityImage> images;
-    private List<ChatShortResponse> chats;
-    private List<CommunityShortResponse> communities;
+    private Set<IdentityImage> images;
+    private Set<ChatShortResponse> chats;
+    private Set<CommunityShortResponse> communities;
 }

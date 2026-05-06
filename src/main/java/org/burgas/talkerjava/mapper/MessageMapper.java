@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageMapper implements Mapper<MessageRequest, Message, MessageShortResponse, MessageFullResponse> {
 
-    final MessageRepository messageRepository;
+    public final MessageRepository messageRepository;
 
     private final ObjectFactory<IdentityMapper> identityMapperObjectFactory;
     private final ObjectFactory<ChatMapper> chatMapperObjectFactory;
@@ -45,7 +45,7 @@ public class MessageMapper implements Mapper<MessageRequest, Message, MessageSho
                 .chat(handleDataException(chat, "Chat is null"))
                 .sender(handleDataException(sender, "Sender is null"))
                 .text(handleDataException(request.getText(), "Text is null"))
-                .files(new ArrayList<>())
+                .files(new HashSet<>())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

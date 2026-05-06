@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -65,7 +66,7 @@ public class ChatService implements ListDao<ChatShortResponse>, ReadDao<UUID, Ch
             if (identityRedisTemplate.hasKey(adminKey)) identityRedisTemplate.delete(adminKey);
         }
 
-        List<Identity> identities = entity.getIdentities();
+        Set<Identity> identities = entity.getIdentities();
         if (identities != null && !identities.isEmpty()) {
             identities.forEach(identity -> {
                 String identityKey = String.format(CacheUtil.IDENTITY_KEY, identity.getId());
@@ -73,7 +74,7 @@ public class ChatService implements ListDao<ChatShortResponse>, ReadDao<UUID, Ch
             });
         }
 
-        List<Message> messages = entity.getMessages();
+        Set<Message> messages = entity.getMessages();
         if (messages != null && !messages.isEmpty()) {
             messages.forEach(message -> {
                 String messageKey = String.format(CacheUtil.MESSAGE_KEY, message.getId());

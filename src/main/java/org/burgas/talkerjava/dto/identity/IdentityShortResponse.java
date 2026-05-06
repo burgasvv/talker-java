@@ -9,6 +9,7 @@ import org.burgas.talkerjava.dao.identity.IdentityImage;
 import org.burgas.talkerjava.dto.Response;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -23,5 +24,5 @@ public class IdentityShortResponse implements Response {
     private String firstname;
     private String lastname;
     private String patronymic;
-    private List<IdentityImage> images;
+    private Set<IdentityImage> images;
 }

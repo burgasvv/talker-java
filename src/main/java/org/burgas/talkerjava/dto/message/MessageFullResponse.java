@@ -10,6 +10,7 @@ import org.burgas.talkerjava.dto.chat.ChatShortResponse;
 import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +23,6 @@ public class MessageFullResponse implements Response {
     private ChatShortResponse chat;
     private IdentityShortResponse sender;
     private String text;
-    private List<MessageFile> files;
+    private Set<MessageFile> files;
     private String createdAt;
 }

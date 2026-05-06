@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -65,9 +66,9 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
                                     .name(handleDataException(request.getName(), "Name is null"))
                                     .description(handleDataException(request.getDescription(), "Description is null"))
                                     .admin(handleDataException(admin, "Admin is null"))
-                                    .identities(new ArrayList<>())
-                                    .images(new ArrayList<>())
-                                    .publications(new ArrayList<>())
+                                    .identities(new HashSet<>())
+                                    .images(new HashSet<>())
+                                    .publications(new HashSet<>())
                                     .createdAt(LocalDateTime.now())
                                     .build();
                             community = this.communityRepository.save(community);
@@ -108,11 +109,13 @@ public class CommunityMapper implements Mapper<CommunityRequest, Community, Comm
                 .images(entity.getImages())
                 .identities(
                         entity.getIdentities().parallelStream()
-                                .map(identity -> getIdentityMapper().toShortResponse(identity)).toList()
+                                .map(identity -> getIdentityMapper().toShortResponse(identity))
+                                .collect(Collectors.toSet())
                 )
                 .publications(
                         entity.getPublications().parallelStream()
-                                .map(publication -> getPublicationmapper().toShortResponse(publication)).toList()
+                                .map(publication -> getPublicationmapper().toShortResponse(publication))
+                                .collect(Collectors.toSet())
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();

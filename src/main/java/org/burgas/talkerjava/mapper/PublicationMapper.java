@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -50,9 +51,9 @@ public class PublicationMapper implements Mapper<PublicationRequest, Publication
                 .community(handleDataException(community, "Community is null"))
                 .sender(handleDataException(sender, "Sender is null"))
                 .text(handleDataException(request.getText(), "Text is null"))
-                .comments(new ArrayList<>())
-                .files(new ArrayList<>())
-                .images(new ArrayList<>())
+                .comments(new HashSet<>())
+                .files(new HashSet<>())
+                .images(new HashSet<>())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -92,7 +93,8 @@ public class PublicationMapper implements Mapper<PublicationRequest, Publication
                 .files(entity.getFiles())
                 .comments(
                         entity.getComments().parallelStream()
-                                .map(comment -> getCommentMapper().toShortResponse(comment)).toList()
+                                .map(comment -> getCommentMapper().toShortResponse(comment))
+                                .collect(Collectors.toSet())
                 )
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm")))
                 .build();

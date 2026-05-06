@@ -10,6 +10,7 @@ import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +23,6 @@ public class CommunityShortResponse implements Response {
     private String name;
     private String description;
     private IdentityShortResponse admin;
-    private List<CommunityImage> images;
+    private Set<CommunityImage> images;
     private String createdAt;
 }

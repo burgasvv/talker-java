@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,7 +45,7 @@ public class CommentMapper implements Mapper<CommentRequest, Comment, CommentSho
                 .publication(handleDataException(publication, "Publication is null"))
                 .sender(handleDataException(sender, "Sender is null"))
                 .text(handleDataException(request.getText(), "Text is null"))
-                .files(new ArrayList<>())
+                .files(new HashSet<>())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

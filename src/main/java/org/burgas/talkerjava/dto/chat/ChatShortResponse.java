@@ -9,6 +9,7 @@ import org.burgas.talkerjava.dto.Response;
 import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -21,6 +22,6 @@ public class ChatShortResponse implements Response {
     private String name;
     private String description;
     private IdentityShortResponse admin;
-    private List<ChatImage> images;
+    private Set<ChatImage> images;
     private String createdAt;
 }

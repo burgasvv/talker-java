@@ -7,8 +7,8 @@ import org.burgas.talkerjava.dao.identity.Identity;
 import org.burgas.talkerjava.dao.message.Message;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -77,10 +77,10 @@ public class Chat implements Dao {
     private Identity admin;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ChatImage> images = new ArrayList<>();
+    private Set<ChatImage> images = new HashSet<>();
 
     @ManyToMany(mappedBy = "chats", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Identity> identities = new ArrayList<>();
+    private Set<Identity> identities = new HashSet<>();
 
     public void addIdentity(Identity identity) {
         this.getIdentities().add(identity);
@@ -93,7 +93,7 @@ public class Chat implements Dao {
     }
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Message> messages = new ArrayList<>();
+    private Set<Message> messages = new HashSet<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

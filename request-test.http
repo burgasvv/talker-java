@@ -179,3 +179,14 @@ Authorization: Basic zagor@gmail.com zagor
 GET /api/v1/chats/by-id?chatId=9e048b8d-9f19-43f5-9e41-83cafd094dfc
 Host: localhost:9000
 Accept: application/json
+
+
+
+### Message Requests
+
+
+
+###
+GET /api/v1/messages/by-id?messageId=ba840dce-160b-4513-9a94-1e047cb4898f
+Host: localhost:9000
+Accept: application/json

@@ -10,6 +10,7 @@ import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 import org.burgas.talkerjava.dto.publication.PublicationShortResponse;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +23,6 @@ public class CommentFullResponse implements Response {
     private PublicationShortResponse publication;
     private IdentityShortResponse sender;
     private String text;
-    private List<CommentFile> files;
+    private Set<CommentFile> files;
     private String createdAt;
 }

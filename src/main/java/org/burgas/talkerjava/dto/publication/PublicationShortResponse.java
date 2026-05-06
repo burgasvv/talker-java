@@ -9,7 +9,7 @@ import org.burgas.talkerjava.dao.publication.PublicationImage;
 import org.burgas.talkerjava.dto.Response;
 import org.burgas.talkerjava.dto.identity.IdentityShortResponse;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -21,7 +21,7 @@ public class PublicationShortResponse implements Response {
     private UUID id;
     private IdentityShortResponse sender;
     private String text;
-    private List<PublicationImage> images;
-    private List<PublicationFile> files;
+    private Set<PublicationImage> images;
+    private Set<PublicationFile> files;
     private String createdAt;
 }

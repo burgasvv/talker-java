@@ -7,8 +7,8 @@ import org.burgas.talkerjava.dao.chat.Chat;
 import org.burgas.talkerjava.dao.identity.Identity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -71,7 +71,7 @@ public class Message implements Dao {
     private String text;
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<MessageFile> files = new ArrayList<>();
+    private Set<MessageFile> files = new HashSet<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

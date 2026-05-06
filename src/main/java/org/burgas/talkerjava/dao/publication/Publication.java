@@ -8,9 +8,7 @@ import org.burgas.talkerjava.dao.community.Community;
 import org.burgas.talkerjava.dao.identity.Identity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -92,13 +90,13 @@ public class Publication implements Dao {
     private String text;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublicationImage> images = new ArrayList<>();
+    private Set<PublicationImage> images = new HashSet<>();
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublicationFile> files = new ArrayList<>();
+    private Set<PublicationFile> files = new HashSet<>();
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
