@@ -30,9 +30,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         sessions.forEach(webSocketSession -> {
             String chatStringId = Objects.requireNonNull(webSocketSession.getUri()).getQuery().split("=")[1];
             UUID chatId = UUID.fromString(chatStringId);
-            List<MessageFullResponse> messageFullResponses = messageMapper.messageRepository.findAll()
+            List<MessageFullResponse> messageFullResponses = messageMapper.messageRepository.findMessagesByChatId(chatId)
                     .parallelStream()
-                    .filter(message -> message.getChat().getId().equals(chatId))
                     .map(messageMapper::toFullResponse)
                     .toList();
             ObjectMapper objectMapper = new ObjectMapper();

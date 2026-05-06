@@ -20,4 +20,7 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Override
     @EntityGraph(value = "message-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     @NonNull List<Message> findAll();
+
+    @EntityGraph(value = "message-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
+    List<Message> findMessagesByChatId(UUID chatId);
 }
