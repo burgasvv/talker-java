@@ -15,7 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ChatImageMapper implements Uploader<Chat, ChatImage> {
 
-    final ChatImageRepository chatImageRepository;
+    public final ChatImageRepository chatImageRepository;
 
     @SneakyThrows
     @Override
