@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommunityMapper implements Mapper<CommunityRequest, Community, CommunityShortResponse, CommunityFullResponse> {
 
-    final CommunityRepository communityRepository;
+    public final CommunityRepository communityRepository;
 
     private final ObjectFactory<IdentityMapper> identityMapperObjectFactory;
     private final ObjectFactory<PublicationMapper> publicationMapperObjectFactory;

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MessageFileMapper implements Uploader<Message, MessageFile> {
 
-    final MessageFileRepository messageFileRepository;
+    public final MessageFileRepository messageFileRepository;
 
     @SneakyThrows
     @Override

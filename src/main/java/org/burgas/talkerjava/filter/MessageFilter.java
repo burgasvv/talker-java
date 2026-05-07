@@ -51,7 +51,10 @@ public class MessageFilter implements HandlerFilterFunction<ServerResponse, Serv
                 throw new IllegalArgumentException("Identity not authenticated");
             }
 
-        } else if (request.path().equals("/api/v1/messages/delete")) {
+        } else if (
+                request.path().equals("/api/v1/messages/by-id") ||
+                request.path().equals("/api/v1/messages/delete")
+        ) {
             Authentication authentication = (Authentication) request.principal().orElseThrow();
 
             if (authentication.isAuthenticated()) {

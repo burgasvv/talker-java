@@ -154,7 +154,7 @@ public class ChatService implements ListDao<ChatShortResponse>, ReadDao<UUID, Ch
         Chat chat = findEntity(Objects.requireNonNull(request.getGroupId()));
         List<UUID> chatIds = applicant.getChats().parallelStream().map(Chat::getId).toList();
         if (!chatIds.contains(chat.getId())) {
-            applicant.addChat(chat);
+            chat.addIdentity(applicant);
             handleCache(chat);
         } else {
             throw new IllegalArgumentException("Applicant is already chat");
@@ -171,8 +171,8 @@ public class ChatService implements ListDao<ChatShortResponse>, ReadDao<UUID, Ch
         Chat chat = findEntity(Objects.requireNonNull(request.getGroupId()));
         List<UUID> chatIds = applicant.getChats().parallelStream().map(Chat::getId).toList();
         if (chatIds.contains(chat.getId())) {
-            applicant.removeChat(chat);
             handleCache(chat);
+            chat.removeIdentity(applicant);
         } else {
             throw new IllegalArgumentException("Applicant not in chat fro deleting");
         }

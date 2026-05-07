@@ -50,7 +50,7 @@ public class SecurityConfig {
 
                                         "/api/v1/chats/by-id",
 
-                                        "/api/v1/messages/by-id", "/api/v1/messages/ws/by-chat"
+                                        "/api/v1/messages/ws/by-chat"
                                 )
                                 .permitAll()
 
@@ -63,7 +63,7 @@ public class SecurityConfig {
                                         "/api/v1/chats/create", "/api/v1/chats/update", "/api/v1/chats/delete",
                                         "/api/v1/chats/join", "/api/v1/chats/out",
 
-                                        "/api/v1/messages/create", "/api/v1/messages/delete"
+                                        "/api/v1/messages/by-id","/api/v1/messages/create", "/api/v1/messages/delete"
                                 )
                                 .hasAnyAuthority("ADMIN", "USER")
 
