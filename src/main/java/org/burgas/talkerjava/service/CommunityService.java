@@ -7,14 +7,13 @@ import org.burgas.talkerjava.dao.identity.Identity;
 import org.burgas.talkerjava.dao.publication.Publication;
 import org.burgas.talkerjava.dto.community.CommunityFullResponse;
 import org.burgas.talkerjava.dto.community.CommunityRequest;
+import org.burgas.talkerjava.dto.community.CommunityShortResponse;
 import org.burgas.talkerjava.dto.group.GroupRequest;
 import org.burgas.talkerjava.dto.identity.IdentityFullResponse;
 import org.burgas.talkerjava.dto.publication.PublicationFullResponse;
 import org.burgas.talkerjava.mapper.CommunityMapper;
-import org.burgas.talkerjava.service.dao.DesignDao;
-import org.burgas.talkerjava.service.dao.GroupHandler;
-import org.burgas.talkerjava.service.dao.ModifyDao;
-import org.burgas.talkerjava.service.dao.ReadDao;
+import org.burgas.talkerjava.repository.IdentityRepository;
+import org.burgas.talkerjava.service.dao.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -29,12 +29,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-public class CommunityService implements RedisCacheHandler<Community>, ReadDao<UUID, Community, CommunityFullResponse>,
-        DesignDao<UUID, CommunityRequest, CommunityFullResponse>, ModifyDao<CommunityRequest, CommunityFullResponse>,
-        GroupHandler<GroupRequest> {
+public class CommunityService implements RedisCacheHandler<Community>, ListDao<CommunityShortResponse>,
+        ReadDao<UUID, Community, CommunityFullResponse>, DesignDao<UUID, CommunityRequest, CommunityFullResponse>,
+        ModifyDao<CommunityRequest, CommunityFullResponse>, GroupHandler<GroupRequest> {
 
     private final CommunityMapper communityMapper;
-    private final IdentityService identityService;
+    private final IdentityRepository identityRepository;
 
     @Qualifier(value = "communityRedisTemplate")
     private final RedisTemplate<String, CommunityFullResponse> communityRedisTemplate;
@@ -46,13 +46,13 @@ public class CommunityService implements RedisCacheHandler<Community>, ReadDao<U
     private final RedisTemplate<String, PublicationFullResponse> publicationRedisTemplate;
 
     public CommunityService(
-            CommunityMapper communityMapper, IdentityService identityService,
+            CommunityMapper communityMapper, IdentityRepository identityRepository,
             RedisTemplate<String, CommunityFullResponse> communityRedisTemplate,
             RedisTemplate<String, IdentityFullResponse> identityRedisTemplate,
             RedisTemplate<String, PublicationFullResponse> publicationRedisTemplate
     ) {
         this.communityMapper = communityMapper;
-        this.identityService = identityService;
+        this.identityRepository = identityRepository;
         this.communityRedisTemplate = communityRedisTemplate;
         this.identityRedisTemplate = identityRedisTemplate;
         this.publicationRedisTemplate = publicationRedisTemplate;
@@ -105,6 +105,14 @@ public class CommunityService implements RedisCacheHandler<Community>, ReadDao<U
     }
 
     @Override
+    public List<CommunityShortResponse> findAll() {
+        return communityMapper.communityRepository.findAll()
+                .parallelStream()
+                .map(communityMapper::toShortResponse)
+                .toList();
+    }
+
+    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = {Throwable.class, Exception.class, RuntimeException.class}
@@ -145,7 +153,7 @@ public class CommunityService implements RedisCacheHandler<Community>, ReadDao<U
             rollbackFor = {Throwable.class, Exception.class, RuntimeException.class}
     )
     public void join(GroupRequest request) {
-        Identity identity = identityService.findEntity(Objects.requireNonNull(request.getApplicantId()));
+        Identity identity = identityRepository.findById(Objects.requireNonNull(request.getApplicantId())).orElseThrow();
         Community community = findEntity(Objects.requireNonNull(request.getGroupId()));
         Set<UUID> identityIds = community.getIdentities().parallelStream().map(Identity::getId).collect(Collectors.toSet());
         if (!identityIds.contains(identity.getId())) {
@@ -162,7 +170,7 @@ public class CommunityService implements RedisCacheHandler<Community>, ReadDao<U
             rollbackFor = {Throwable.class, Exception.class, RuntimeException.class}
     )
     public void out(GroupRequest request) {
-        Identity identity = identityService.findEntity(Objects.requireNonNull(request.getApplicantId()));
+        Identity identity = identityRepository.findById(Objects.requireNonNull(request.getApplicantId())).orElseThrow();
         Community community = findEntity(Objects.requireNonNull(request.getGroupId()));
         Set<UUID> identityIds = community.getIdentities().parallelStream().map(Identity::getId).collect(Collectors.toSet());
         if (identityIds.contains(identity.getId())) {

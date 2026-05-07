@@ -1,5 +1,6 @@
 package org.burgas.talkerjava.repository;
 
+import org.burgas.talkerjava.dao.chat.Chat;
 import org.burgas.talkerjava.dao.message.Message;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -22,5 +23,5 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @NonNull List<Message> findAll();
 
     @EntityGraph(value = "message-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
-    List<Message> findMessagesByChatId(UUID chatId);
+    List<Message> findMessagesByChat(Chat chat);
 }

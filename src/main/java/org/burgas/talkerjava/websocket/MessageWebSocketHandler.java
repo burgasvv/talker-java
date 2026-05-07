@@ -1,7 +1,9 @@
 package org.burgas.talkerjava.websocket;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.talkerjava.dao.chat.Chat;
 import org.burgas.talkerjava.dto.message.MessageFullResponse;
+import org.burgas.talkerjava.mapper.ChatMapper;
 import org.burgas.talkerjava.mapper.MessageMapper;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
@@ -22,29 +24,25 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MessageWebSocketHandler extends TextWebSocketHandler {
 
     private final MessageMapper messageMapper;
+    private final ChatMapper chatMapper;
     private static final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
     @Override
-    public void afterConnectionEstablished(@NonNull WebSocketSession session) {
+    public void afterConnectionEstablished(@NonNull WebSocketSession session) throws IOException {
         sessions.add(session);
-        sessions.forEach(webSocketSession -> {
+        for (WebSocketSession webSocketSession : sessions) {
             String chatStringId = Objects.requireNonNull(webSocketSession.getUri()).getQuery().split("=")[1];
             UUID chatId = UUID.fromString(chatStringId);
-            List<MessageFullResponse> messageFullResponses = messageMapper.messageRepository.findMessagesByChatId(chatId)
+            Chat chat = chatMapper.chatRepository.findById(chatId).orElseThrow(() -> new IllegalArgumentException("Chat not found"));
+            List<MessageFullResponse> messageFullResponses = messageMapper.messageRepository.findMessagesByChat(chat)
                     .parallelStream()
                     .map(messageMapper::toFullResponse)
                     .toList();
             ObjectMapper objectMapper = new ObjectMapper();
-            messageFullResponses.forEach(messageFullResponse ->
-                    {
-                        try {
-                            webSocketSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageFullResponse)));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-            );
-        });
+            for (MessageFullResponse messageFullResponse : messageFullResponses) {
+                webSocketSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageFullResponse)));
+            }
+        }
     }
 
     @Override
@@ -54,9 +52,7 @@ public class MessageWebSocketHandler extends TextWebSocketHandler {
 
     public void broadcast(String message) throws IOException {
         for (WebSocketSession session : sessions) {
-            if (session.isOpen()) {
-                session.sendMessage(new TextMessage(message));
-            }
+            if (session.isOpen()) session.sendMessage(new TextMessage(message));
         }
     }
 }

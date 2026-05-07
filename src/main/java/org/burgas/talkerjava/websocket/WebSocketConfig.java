@@ -16,6 +16,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(@NonNull WebSocketHandlerRegistry registry) {
-        registry.addHandler(messageWebSocketHandler, "/api/v1/messages/ws/by-chat").setAllowedOrigins("*");
+        registry
+                .addHandler(messageWebSocketHandler, "/api/v1/messages/ws/by-chat")
+                .setAllowedOrigins("http://localhost:9000");
     }
 }

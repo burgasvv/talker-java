@@ -39,7 +39,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: UkMsu3tHfM_fNrdtR1JNo2Sg7z0gdAtcMXuP2kpaXUrmi94oZHRI3hgjGq3yUNRcfn95lgaTwlwTQGlxVBnp4ys_anKE6bgb
+X-Csrf-Token: jF3zfaJupfnayrxZn6kqcD7NJBCBvirpbrcmszV-tpHJcj2T6DyQGJEKls_3ro9prIQeQA3_CSng3xPEW44TgVZOhqeqEFyl
 
 {
     "authority": "USER",
@@ -71,7 +71,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/identities/by-id?identityId=060f883f-09e6-4cde-9a75-5f34447d2264
+GET /api/v1/identities/by-id?identityId=6d9d77fc-9958-41e6-a6e7-a92408b68917
 Host: localhost:9000
 Accept: application/json
 
@@ -154,12 +154,12 @@ PUT /api/v1/chats/join
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: DGXnPDmhftMvWhcnC9i3e5lxTstid-eQ9FugNSGOWBq7RO9XOlKDWVrFGLECPHQWMvWDTvtCY6pRQ4W9kTnGDEDrbyLZJolk
+X-Csrf-Token: jF3zfaJupfnayrxZn6kqcD7NJBCBvirpbrcmszV-tpHJcj2T6DyQGJEKls_3ro9prIQeQA3_CSng3xPEW44TgVZOhqeqEFyl
 Authorization: Basic zagor@gmail.com zagor
 
 {
-    "groupId": "9e048b8d-9f19-43f5-9e41-83cafd094dfc",
-    "applicantId": "3471ddd1-fd94-4f80-b556-6f5c88d3cdd5"
+    "groupId": "e6e7d3ba-5f0b-4bdf-9bda-d25bb8c8bd0b",
+    "applicantId": "6d9d77fc-9958-41e6-a6e7-a92408b68917"
 }
 
 ###
@@ -176,7 +176,7 @@ Authorization: Basic zagor@gmail.com zagor
 }
 
 ###
-GET /api/v1/chats/by-id?chatId=9e048b8d-9f19-43f5-9e41-83cafd094dfc
+GET /api/v1/chats/by-id?chatId=e6e7d3ba-5f0b-4bdf-9bda-d25bb8c8bd0b
 Host: localhost:9000
 Accept: application/json
 
@@ -188,5 +188,56 @@ Accept: application/json
 
 ###
 GET /api/v1/messages/by-id?messageId=ba840dce-160b-4513-9a94-1e047cb4898f
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Community Requests
+
+
+
+###
+POST /api/v1/communities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: 9IO7uLUq0k1-SgmXpknVGeH4ZFSriRQT616wOlLrmW14JUkTkOLY3YZO4XtTLjqnlWThKdLKSW3K6C0-3meFCDHbqVsbRygl
+Authorization: Basic zagor@gmail.com zagor
+
+{
+    "name": "Social Community",
+    "description": "Описание сообщества Social Community",
+    "adminId": "6d9d77fc-9958-41e6-a6e7-a92408b68917"
+}
+
+###
+POST /api/v1/communities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: m0Al8ok4mM1QlDDCh6V3JrQLZoJRXryxcPZ92cJnNVL0icMH_yFGl7pcq_t98APytIhDFoc5S7swP4WcRc9I66FXBWSX66Ix
+Authorization: Basic zagor@gmail.com zagor
+
+{
+    "id": "c40ec46e-e624-4fe0-9617-1ecdc4929555",
+    "adminId": "48fd24e7-17db-4abc-8cb9-bf261d5127a8"
+}
+
+###
+PUT /api/v1/communities/join
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: x0Zr_X0H09oceZf5_6YVGz-L8FpYIRf4PHw6TWvMk4rR91w6oycImE5j4OwxHaTJzIshKwy53WM5QC7VCUUPfwj8o7yylT0M
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "groupId": "c40ec46e-e624-4fe0-9617-1ecdc4929555",
+    "applicantId": "48fd24e7-17db-4abc-8cb9-bf261d5127a8"
+}
+
+###
+GET /api/v1/communities/by-id?communityId=c40ec46e-e624-4fe0-9617-1ecdc4929555
 Host: localhost:9000
 Accept: application/json
