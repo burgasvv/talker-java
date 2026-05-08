@@ -8,6 +8,9 @@ import org.burgas.talkerjava.dao.publication.PublicationImage;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.PublicationImageRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -19,6 +22,10 @@ public class PublicationImageMapper implements Uploader<Publication, Publication
 
     @SneakyThrows
     @Override
+    @Transactional(
+            isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
+            rollbackFor = {Exception.class, Throwable.class, RuntimeException.class}
+    )
     public PublicationImage upload(Publication entity, Part part) {
         if (Objects.requireNonNull(part.getContentType()).startsWith("image")) {
             var publicationImage = PublicationImage.builder()

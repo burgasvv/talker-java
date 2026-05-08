@@ -8,6 +8,9 @@ import org.burgas.talkerjava.dao.community.CommunityImage;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.CommunityImageRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -15,10 +18,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CommunityImageMapper implements Uploader<Community, CommunityImage> {
 
-    final CommunityImageRepository communityImageRepository;
+    public final CommunityImageRepository communityImageRepository;
 
     @SneakyThrows
     @Override
+    @Transactional(
+            isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
+            rollbackFor = {Exception.class, Throwable.class, RuntimeException.class}
+    )
     public CommunityImage upload(Community entity, Part part) {
         if (Objects.requireNonNull(part.getContentType()).startsWith("image")) {
             var communityImage = CommunityImage.builder()

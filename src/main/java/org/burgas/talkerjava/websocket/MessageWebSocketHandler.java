@@ -7,7 +7,6 @@ import org.burgas.talkerjava.mapper.ChatMapper;
 import org.burgas.talkerjava.mapper.MessageMapper;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -43,11 +42,6 @@ public class MessageWebSocketHandler extends TextWebSocketHandler {
                 webSocketSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageFullResponse)));
             }
         }
-    }
-
-    @Override
-    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) {
-        sessions.remove(session);
     }
 
     public void broadcast(String message) throws IOException {

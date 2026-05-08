@@ -1,10 +1,10 @@
 package org.burgas.talkerjava.filter;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.talkerjava.dao.chat.Chat;
+import org.burgas.talkerjava.dao.community.Community;
 import org.burgas.talkerjava.dao.identity.IdentityDetails;
 import org.burgas.talkerjava.dto.document.ImageRequest;
-import org.burgas.talkerjava.repository.ChatRepository;
+import org.burgas.talkerjava.repository.CommunityRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -18,51 +18,53 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ChatImageFilter implements HandlerFilterFunction<ServerResponse, ServerResponse> {
+public class CommunityImageFilter implements HandlerFilterFunction<ServerResponse, ServerResponse> {
 
-    private final ChatRepository chatRepository;
+    private final CommunityRepository communityRepository;
 
     @Override
     public @NonNull ServerResponse filter(@NonNull ServerRequest request, @NonNull HandlerFunction<ServerResponse> next)
             throws Exception {
 
         if (
-                request.path().equals("/api/v1/chat-images/create") ||
-                request.path().equals("/api/v1/chat-images/delete")
+                request.path().equals("/api/v1/community-images/create") ||
+                request.path().equals("/api/v1/community-images/delete")
         ) {
             Authentication authentication = (Authentication) request.principal().orElseThrow();
 
             if (authentication.isAuthenticated()) {
                 IdentityDetails identityDetails = (IdentityDetails) authentication.getPrincipal();
-                UUID chatId = UUID.fromString(request.param("chatId").orElseThrow());
-                Chat chat = chatRepository.findById(chatId).orElseThrow();
+                UUID communityId = UUID.fromString(request.param("communityId").orElseThrow());
+                Community community = communityRepository.findById(communityId).orElseThrow();
 
                 assert identityDetails != null;
-                if (identityDetails.identity().getId().equals(chat.getAdmin().getId())) {
+                if (identityDetails.identity().getId().equals(community.getAdmin().getId())) {
                     return next.handle(request);
                 } else {
                     throw new IllegalArgumentException("Identity not authorized");
                 }
+
             } else {
                 throw new IllegalArgumentException("Identity not authenticated");
             }
 
-        } else if (request.path().equals("/api/v1/chat-images/make-preview")) {
+        } else if (request.path().equals("/api/v1/community-images/make-preview")) {
             Authentication authentication = (Authentication) request.principal().orElseThrow();
 
             if (authentication.isAuthenticated()) {
                 IdentityDetails identityDetails = (IdentityDetails) authentication.getPrincipal();
                 ImageRequest imageRequest = request.body(ImageRequest.class);
-                UUID chatId = Objects.requireNonNull(imageRequest.getEntityId());
-                Chat chat = chatRepository.findById(chatId).orElseThrow();
+                UUID communityId = Objects.requireNonNull(imageRequest.getEntityId());
+                Community community = communityRepository.findById(communityId).orElseThrow();
 
                 assert identityDetails != null;
-                if (identityDetails.identity().getId().equals(chat.getAdmin().getId())) {
+                if (identityDetails.identity().getId().equals(community.getAdmin().getId())) {
                     request.attributes().put("imageRequest", imageRequest);
                     return next.handle(request);
                 } else {
                     throw new IllegalArgumentException("Identity not authorized");
                 }
+
             } else {
                 throw new IllegalArgumentException("Identity not authenticated");
             }

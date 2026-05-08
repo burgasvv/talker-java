@@ -6,6 +6,7 @@ import org.burgas.talkerjava.cache.RedisCacheHandler;
 import org.burgas.talkerjava.dao.chat.Chat;
 import org.burgas.talkerjava.dao.identity.Identity;
 import org.burgas.talkerjava.dao.message.Message;
+import org.burgas.talkerjava.dao.message.MessageFile;
 import org.burgas.talkerjava.dto.chat.ChatFullResponse;
 import org.burgas.talkerjava.dto.identity.IdentityFullResponse;
 import org.burgas.talkerjava.dto.message.MessageFullResponse;
@@ -99,11 +100,13 @@ public class MessageService implements ReadDao<UUID, Message, MessageFullRespons
         Message entity = messageMapper.toEntity(request);
         Message message = messageMapper.messageRepository.save(entity);
         handleCache(message);
-        files.forEach(part -> messageFileMapper.upload(message, part));
-        MessageFullResponse messageFullResponse = messageMapper.toFullResponse(message);
-        String messageKey = String.format(CacheUtil.MESSAGE_KEY, messageFullResponse.getId());
-        messageRedisTemplate.opsForValue().set(messageKey, messageFullResponse);
-        return messageFullResponse;
+        files.forEach(
+                part -> {
+                    MessageFile upload = messageFileMapper.upload(message, part);
+                    message.getFiles().add(upload);
+                }
+        );
+        return findById(message.getId());
     }
 
     @Override

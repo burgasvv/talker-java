@@ -13,11 +13,13 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private final MessageWebSocketHandler messageWebSocketHandler;
+    private final PublicationWebSocketHandler publicationWebSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(@NonNull WebSocketHandlerRegistry registry) {
         registry
                 .addHandler(messageWebSocketHandler, "/api/v1/messages/ws/by-chat")
+                .addHandler(publicationWebSocketHandler, "/api/v1/publications/ws/by-community")
                 .setAllowedOrigins("http://localhost:9000");
     }
 }

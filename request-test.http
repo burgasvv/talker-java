@@ -241,3 +241,15 @@ Authorization: Basic burgasvv@gmail.com burgasvv
 GET /api/v1/communities/by-id?communityId=c40ec46e-e624-4fe0-9617-1ecdc4929555
 Host: localhost:9000
 Accept: application/json
+
+
+
+### Publication Requests
+
+
+
+###
+GET /api/v1/publications/by-id?publicationId=0c6423e9-4d36-42e9-9b97-7ebfa021a143
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv

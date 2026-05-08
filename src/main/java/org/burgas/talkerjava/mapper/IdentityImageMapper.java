@@ -8,6 +8,9 @@ import org.burgas.talkerjava.dao.identity.IdentityImage;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.IdentityImageRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -19,6 +22,10 @@ public class IdentityImageMapper implements Uploader<Identity, IdentityImage> {
 
     @SneakyThrows
     @Override
+    @Transactional(
+            isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
+            rollbackFor = {Exception.class, Throwable.class, RuntimeException.class}
+    )
     public IdentityImage upload(Identity entity, Part part) {
         if (Objects.requireNonNull(part.getContentType()).startsWith("image")) {
             var identityImage = IdentityImage.builder()

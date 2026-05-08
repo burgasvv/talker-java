@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PublicationMapper implements Mapper<PublicationRequest, Publication, PublicationShortResponse, PublicationFullResponse> {
 
-    final PublicationRepository publicationRepository;
+    public final PublicationRepository publicationRepository;
 
     private final ObjectFactory<IdentityMapper> identityMapperObjectFactory;
     private final ObjectFactory<CommunityMapper> communityMapperObjectFactory;

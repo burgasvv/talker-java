@@ -8,6 +8,9 @@ import org.burgas.talkerjava.dao.publication.PublicationFile;
 import org.burgas.talkerjava.mapper.contract.Uploader;
 import org.burgas.talkerjava.repository.PublicationFileRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +20,10 @@ public class PublicationFileMapper implements Uploader<Publication, PublicationF
 
     @SneakyThrows
     @Override
+    @Transactional(
+            isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
+            rollbackFor = {Exception.class, Throwable.class, RuntimeException.class}
+    )
     public PublicationFile upload(Publication entity, Part part) {
         var publicationFile = PublicationFile.builder()
                 .name(part.getSubmittedFileName())
